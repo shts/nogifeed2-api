@@ -176,9 +176,6 @@ module Api
     belongs_to :member
   end
 
-  class Report < ActiveRecord::Base
-  end
-
   class Matome < ActiveRecord::Base
   end
 
