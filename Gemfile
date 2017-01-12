@@ -12,6 +12,7 @@ gem 'addressable', require: 'addressable/uri'
 gem 'eventmachine'
 gem 'feedbag'
 gem 'feedjira'
+gem 'parse-ruby-client'
 
 group :development do
   gem 'shotgun'
