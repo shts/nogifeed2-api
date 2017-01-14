@@ -13,6 +13,7 @@ gem 'eventmachine'
 gem 'feedbag'
 gem 'feedjira'
 gem 'parse-ruby-client'
+gem 'aws-sdk'
 
 group :development do
   gem 'shotgun'
