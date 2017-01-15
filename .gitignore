@@ -4,3 +4,4 @@
 database.yml
 test*.rb
 tmp/*
+salvage.rb
