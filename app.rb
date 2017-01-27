@@ -50,7 +50,7 @@ module Api
       @entries = Api::Entry.where(member_id: params[:ids])
                 .offset(params[:skip].present? ? params[:skip] : 0)
                 .limit(params[:limit].present? ? params[:limit] : 30)
-                .order(published: :desc)
+                .order(published2: :desc)
       jbuilder :entries
     end
 
@@ -61,7 +61,7 @@ module Api
 
       @entries = Api::Entry.offset(params[:skip].present? ? params[:skip] : 0)
                 .limit(params[:limit].present? ? params[:limit] : 30)
-                .order(published: :desc)
+                .order(published2: :desc)
       jbuilder :entries
     end
 
@@ -72,7 +72,7 @@ module Api
 
       reports = Api::Report.offset(params[:skip].present? ? params[:skip] : 0)
                 .limit(params[:limit].present? ? params[:limit] : 30)
-                .order(published: :desc)
+                .order(published2: :desc)
       reports.to_json
     end
 
@@ -105,7 +105,7 @@ module Api
 
       reports = Api::Matome.offset(params[:skip].present? ? params[:skip] : 0)
                 .limit(params[:limit].present? ? params[:limit] : 30)
-                .order(entry_published: :desc)
+                .order(entry_published2: :desc)
       reports.to_json
     end
 
