@@ -65,6 +65,16 @@ module Api
       jbuilder :entries
     end
 
+    # get member
+    get '/entries/:id' do
+      @entry = Api::Entry.find_by_id(params[:id])
+      if @entry == nil then
+        404
+      else
+        jbuilder :entry
+      end
+    end
+
     # get all reports
     # /reports?limit=0&skip=30
     get '/reports' do
