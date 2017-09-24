@@ -159,6 +159,16 @@ module Api
       fcm.destroy
     end
 
+    # /banners?limit=0&skip=30
+    get '/banners' do
+      content_type :json, :charset => 'utf-8'
+
+      banners = Api::Banner.offset(params[:skip].present? ? params[:skip] : 0)
+                .limit(params[:limit].present? ? params[:limit] : 30)
+                .order(updated_at: :desc)
+      banners.to_json
+    end
+
   end
 
   # DBの設定
@@ -192,4 +202,6 @@ module Api
   class Fcm < ActiveRecord::Base
   end
 
+  class Banner < ActiveRecord::Base
+  end
 end
