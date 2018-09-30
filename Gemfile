@@ -3,6 +3,7 @@ source 'http://rubygems.org'
 gem "sinatra", require: 'sinatra/base'
 gem "sinatra-contrib"
 gem "sinatra-activerecord", :require => 'sinatra/activerecord'
+gem "sinatra-cross_origin", "~> 0.3.1", :require => 'sinatra/cross_origin'
 gem "activerecord", "< 5.0.0"
 gem "rake"
 gem 'pg'

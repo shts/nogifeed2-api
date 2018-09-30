@@ -17,6 +17,13 @@ module Api
     configure :development do
       register Sinatra::Reloader
     end
+
+    configure do
+      # この設定がないとget/postでのcross_originがundefineになる...。
+      register Sinatra::CrossOrigin
+      enable :cross_origin
+    end
+
     #configure do
     #  register Sinatra::ActiveRecordExtension
     #  set :database, {adapter: "sqlite3", database: "db/api.db"}
@@ -27,12 +34,14 @@ module Api
     # -----------------------------------------------------
     # get member
     get '/members' do
+      cross_origin
       # メンバー生成時にkeyがずれたのでここでorder
       Api::Member.all.order(:id).to_json
     end
 
     # get member
     get '/members/:id' do
+      cross_origin
       member = Api::Member.find_by_id(params[:id])
       if member == nil then
         404
@@ -44,6 +53,7 @@ module Api
     # get member's entries
     # /member/entries?ids[]=1&ids[]=2&skip=0&limit=30
     get '/member/entries' do
+      cross_origin
       #文字コード指定してやらないと日本語が化ける
     	content_type :json, :charset => 'utf-8'
 
@@ -57,6 +67,7 @@ module Api
     # get all entries
     # /entries?skip=0&limit=30
     get '/entries' do
+      cross_origin
     	content_type :json, :charset => 'utf-8'
 
       @entries = Api::Entry.offset(params[:skip].present? ? params[:skip] : 0)
@@ -67,6 +78,7 @@ module Api
 
     # get member
     get '/entries/:id' do
+      cross_origin
       @entry = Api::Entry.find_by_id(params[:id])
       if @entry == nil then
         404
@@ -78,6 +90,7 @@ module Api
     # get all reports
     # /reports?limit=0&skip=30
     get '/reports' do
+      cross_origin
       content_type :json, :charset => 'utf-8'
 
       reports = Api::Report.offset(params[:skip].present? ? params[:skip] : 0)
@@ -91,6 +104,7 @@ module Api
     # action -1 -> decriment
     # curl -v -H "Accept: application/json" -H "Content-type: application/json" -X POST -d '{"member_id":"1","action":"incriment"}' http://localhost:9292/favorite -w "\n%{http_code}\n"
     post '/favorite', provides: :json do
+      cross_origin
       params = JSON.parse request.body.read
       # "Post Favorite #{params} id -> #{params['member_id']} present -> #{params['member_id'].present?}, action -> #{params['action']} present -> #{params['action'].present?}"
       if !params['member_id'].present? || !params['action'].present? then
@@ -111,6 +125,7 @@ module Api
 
     # /matomes?limit=0&skip=30
     get '/matomes' do
+      cross_origin
       content_type :json, :charset => 'utf-8'
 
       reports = Api::Matome.offset(params[:skip].present? ? params[:skip] : 0)
@@ -122,6 +137,7 @@ module Api
     # FCM registeration id
     # curl -v -H "Accept: application/json" -H "Content-type: application/json" -X POST -d '{"reg_id":"1"}' http://localhost:9292/registeration -w "\n%{http_code}\n"
     post '/registration', provides: :json do
+      cross_origin
       params = JSON.parse request.body.read
 
       if !params['reg_id'].present? then
@@ -143,6 +159,7 @@ module Api
     # FCM unregisteration id
     # curl -v -H "Accept: application/json" -H "Content-type: application/json" -X POST -d '{"reg_id":"1"}' http://localhost:9292/unregisteration -w "\n%{http_code}\n"
     post '/unregistration', provides: :json do
+      cross_origin
       params = JSON.parse request.body.read
 
       if !params['reg_id'].present? then
@@ -161,6 +178,7 @@ module Api
 
     # /banners?limit=0&skip=30
     get '/banners' do
+      cross_origin
       content_type :json, :charset => 'utf-8'
 
       banners = Api::Banner.offset(params[:skip].present? ? params[:skip] : 0)
